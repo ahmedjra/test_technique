@@ -1,6 +1,6 @@
 from datetime import datetime
-import pandas as pd
 import numpy as np
+import pandas as pd
 import os
 
 
@@ -22,6 +22,7 @@ class preprocessing:
                 "Client",
                 "Produit",
                 "Quantité",
+                "Transporteur",
             ]
         )
 
@@ -334,7 +335,7 @@ class preprocessing:
             return data.loc[indices[0] + 2, "content"]
 
     def main(self, chemin):
-        for element in os.listdir("/gdrive/MyDrive/data/test/"):
+        for element in os.listdir(chemin):
             self.data.loc[len(self.data["Fichier"])] = [
                 element,
                 self.extract_name(chemin, element),
