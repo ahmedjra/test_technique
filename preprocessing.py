@@ -15,9 +15,10 @@ class preprocessing:
                 "FAX",
                 "Date",
                 "Heure",
-                "Type",
-                "Quantité",
                 "Plaque",
+                "Client",
+                "Produit",
+                "Quantité"
             ]
         )
 
@@ -263,8 +264,29 @@ class preprocessing:
                 return_string = f"{values[0]}"
 
             return return_string
+        
 
-        def main(self, chemin):
+    def extract_client(self,chemin,element):
+
+        if element.startswith('doc'):
+                print(element)
+                file_path = os.path.join(chemin, element)
+                data = pd.read_csv(file_path, sep=';', skipinitialspace=True)
+                indices = data.index[data['content'].isin(['CLIENT','CLIENT:'])].tolist()
+                print(indices)
+                if len(indices) <= 2:
+                    return(data.loc[indices[0]+2,'content'])
+                
+    def extract_trans(self,chemin,element):
+        if element.startswith('doc'):
+                
+
+                file_path = os.path.join(chemin, element)
+                data = pd.read_csv(file_path, sep=';', skipinitialspace=True)
+                indices = data.index[data['content'].isin(['TRANSPORTEUR','TRANSPORTEUR:'])].tolist()
+                return(data.loc[indices[0]+2,'content'])
+
+    def main(self, chemin):
             for element in os.listdir("/gdrive/MyDrive/data/test/"):
                 self.data.loc[len(self.data["Fichier"])] = [
                     element,
@@ -276,5 +298,6 @@ class preprocessing:
                     self.extract_heure(chemin, element),
                     self.extract_type(chemin, element),
                     self.extract_quant(chemin, element),
-                    self.extract_plaque(chemin, element),
+                    self.extract_plaque(chemin, element)
+                    self.extract_client(chemin,element),
                 ]
