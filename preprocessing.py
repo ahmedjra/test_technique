@@ -43,10 +43,8 @@ class preprocessing:
         if element.startswith("doc"):
             indices = data.index[data["content"].isin(["PESEE"])].tolist()
             if len(indices) == 0:
-                print(f" 0 'PESEE' trouvé {element}")
                 return None
             if len(indices) == 1:
-                print(f" 1 'PESEE' trouvé {element}")
                 return datetime.strptime(
                     data.loc[indices[0] + 3, "content"], "%Y-%m-%d"
                 )
@@ -74,11 +72,9 @@ class preprocessing:
             indices = data.index[data["content"].isin(["PESEE"])].tolist()
 
             if len(indices) == 0:
-                print(f" 0 'PESEE' trouvé {element}")
                 return None
 
             if len(indices) == 1:
-                print(f" 1 'PESEE' trouvé {element}")
                 return data.loc[indices[0] + 4, "content"]
 
             return (

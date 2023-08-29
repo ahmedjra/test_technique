@@ -1,7 +1,6 @@
 from preprocessing import preprocessing
 from evaluation import evaluation
 import argparse
-import os
 
 if __name__ == "__main__":
     preprocessing = preprocessing()
