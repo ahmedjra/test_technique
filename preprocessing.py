@@ -6,6 +6,9 @@ import os
 
 class preprocessing:
     def __init__(self) -> None:
+        """
+        Constructor: Initializes an empty DataFrame with predefined columns.
+        """
         self.data = pd.DataFrame(
             columns=[
                 "Fichier",
@@ -18,17 +21,20 @@ class preprocessing:
                 "Plaque",
                 "Client",
                 "Produit",
-                "Quantité"
+                "Quantité",
             ]
         )
 
     def extract_date(self, chemin, element):
         """
-        function to extract date
-        parameters:
-            element: name of the file
+        Extracts date(s) from a given CSV file based on specific patterns.
+
+        Parameters:
+            - chemin: Path to the directory containing the file.
+            - element: Filename of the CSV file.
+
         Returns:
-                datetime of the file
+            - Date(s) extracted from the file or None if not found.
         """
         file_path = os.path.join(chemin, element)
         data = pd.read_csv(file_path, sep=";", skipinitialspace=True)
@@ -52,11 +58,14 @@ class preprocessing:
 
     def extract_heure(self, chemin, element):
         """
-        function to extract heure
-        parameters:
-            element: name of the file
+        Extracts time(s) from a given CSV file based on specific patterns.
+
+        Parameters:
+            - chemin: Path to the directory containing the file.
+            - element: Filename of the CSV file.
+
         Returns:
-                time of the file
+            - Time(s) extracted from the file or None if not found.
         """
         if element.startswith("doc"):
             file_path = os.path.join(chemin, element)
@@ -83,11 +92,14 @@ class preprocessing:
 
     def extract_quant(self, chemin, element):
         """
-        function to extract quantity
-        parameters:
-            element: name of the file
+        Extracts quantities from a given CSV file based on specific patterns.
+
+        Parameters:
+            - chemin: Path to the directory containing the file.
+            - element: Filename of the CSV file.
+
         Returns:
-                quantity of products in the file
+            - List of quantities and their units extracted from the file or None if not found.
         """
         if element.startswith("doc"):
             file_path = os.path.join(chemin + element)
@@ -104,9 +116,9 @@ class preprocessing:
                         data.loc[indice + 20, "content"],
                     )
                     return [
-                        (listequant[0], "KG"),
-                        (listequant[1], "KG"),
-                        (listequant[2], "KG"),
+                        (listequant[0], "KG(BRUT)"),
+                        (listequant[1], "KG(TARE)"),
+                        (listequant[2], "KG(NET)"),
                     ]
                 else:
                     value = data.loc[indice + 2, "content"]
@@ -117,11 +129,14 @@ class preprocessing:
 
     def extract_plaque(self, chemin, element):
         """
-        function to extract vehicule number
-        parameters:
-            element: name of the file
+        Extracts vehicle plate number from a given CSV file based on specific patterns.
+
+        Parameters:
+            - chemin: Path to the directory containing the file.
+            - element: Filename of the CSV file.
+
         Returns:
-                vehicule number in the file
+            - Plate number or None if not found.
         """
         if element.startswith("doc"):
             file_path = os.path.join(chemin, element)
@@ -134,11 +149,14 @@ class preprocessing:
 
     def extract_type(self, chemin, element):
         """
-        function to extract type of products
-        parameters:
-            element: name of the file
+        Extracts product type from a given CSV file based on specific patterns.
+
+        Parameters:
+            - chemin: Path to the directory containing the file.
+            - element: Filename of the CSV file.
+
         Returns:
-                types of products in the file
+            - Product type string or None if not found.
         """
         if element.startswith("doc"):
             file_path = os.path.join(chemin, element)
@@ -169,11 +187,14 @@ class preprocessing:
 
     def extract_tel(self, chemin, element):
         """
-        function to extract tel
-        parameters:
-            element: name of the file
+        Extracts phone number from a given CSV file based on specific patterns.
+
+        Parameters:
+            - chemin: Path to the directory containing the file.
+            - element: Filename of the CSV file.
+
         Returns:
-                phone number in the file
+            - TEL or None if not found.
         """
         if element.startswith("doc"):
             file_path = os.path.join(chemin, element)
@@ -191,11 +212,14 @@ class preprocessing:
 
     def extract_fax(self, chemin, element):
         """
-        function to extract fax
-        parameters:
-            element: name of the file
+        Extracts fax number from a given CSV file based on specific patterns.
+
+        Parameters:
+            - chemin: Path to the directory containing the file.
+            - element: Filename of the CSV file.
+
         Returns:
-                fax of the file
+            - Fax number or None if not found.
         """
 
         if element.startswith("doc"):
@@ -210,11 +234,14 @@ class preprocessing:
 
     def extract_name(self, chemin, element):
         """
-        function to extract name
-        parameters:
-            element: name of the file
+        Extracts name from the first row of a given CSV file.
+
+        Parameters:
+            - chemin: Path to the directory containing the file.
+            - element: Filename of the CSV file.
+
         Returns:
-                name mentionned in the file
+            - Name from the file or None if not found.
         """
 
         if element.startswith("doc"):
@@ -225,11 +252,14 @@ class preprocessing:
 
     def extract_adr(self, chemin, element):
         """
-        function to extract adress
-        parameters:
-            element: name of the file
+        Extracts address details from a given CSV file based on specific patterns.
+
+        Parameters:
+            - chemin: Path to the directory containing the file.
+            - element: Filename of the CSV file.
+
         Returns:
-                adress mentionned in the file
+            - Address string or None if not found.
         """
         if element.startswith("doc"):
             file_path = os.path.join(chemin, element)
@@ -264,40 +294,58 @@ class preprocessing:
                 return_string = f"{values[0]}"
 
             return return_string
-        
 
-    def extract_client(self,chemin,element):
+    def extract_client(self, chemin, element):
+        """
+        Extract client information from a CSV file based on certain conditions.
 
-        if element.startswith('doc'):
-                print(element)
-                file_path = os.path.join(chemin, element)
-                data = pd.read_csv(file_path, sep=';', skipinitialspace=True)
-                indices = data.index[data['content'].isin(['CLIENT','CLIENT:'])].tolist()
-                print(indices)
-                if len(indices) <= 2:
-                    return(data.loc[indices[0]+2,'content'])
-                
-    def extract_trans(self,chemin,element):
-        if element.startswith('doc'):
-                
+        Parameters:
+        - chemin (str): The directory path where the file resides.
+        - element (str): The name of the file to be read.
 
-                file_path = os.path.join(chemin, element)
-                data = pd.read_csv(file_path, sep=';', skipinitialspace=True)
-                indices = data.index[data['content'].isin(['TRANSPORTEUR','TRANSPORTEUR:'])].tolist()
-                return(data.loc[indices[0]+2,'content'])
+        Returns:
+        - str: The extracted client information from the CSV file.
+        """
+        if element.startswith("doc"):
+            file_path = os.path.join(chemin, element)
+            data = pd.read_csv(file_path, sep=";", skipinitialspace=True)
+            indices = data.index[data["content"].isin(["CLIENT", "CLIENT:"])].tolist()
+
+            if len(indices) <= 2:
+                return data.loc[indices[0] + 2, "content"]
+
+    def extract_trans(self, chemin, element):
+        """
+        Extract transporter information from a CSV file based on certain conditions.
+
+        Parameters:
+        - chemin (str): The directory path where the file resides.
+        - element (str): The name of the file to be read.
+
+        Returns:
+        - str: The extracted transporter information from the CSV file.
+        """
+        if element.startswith("doc"):
+            file_path = os.path.join(chemin, element)
+            data = pd.read_csv(file_path, sep=";", skipinitialspace=True)
+            indices = data.index[
+                data["content"].isin(["TRANSPORTEUR", "TRANSPORTEUR:"])
+            ].tolist()
+            return data.loc[indices[0] + 2, "content"]
 
     def main(self, chemin):
-            for element in os.listdir("/gdrive/MyDrive/data/test/"):
-                self.data.loc[len(self.data["Fichier"])] = [
-                    element,
-                    self.extract_name(chemin, element),
-                    self.extract_adr(chemin, element),
-                    self.extract_tel(chemin, element),
-                    self.extract_fax(chemin, element),
-                    self.extract_date(chemin, element),
-                    self.extract_heure(chemin, element),
-                    self.extract_type(chemin, element),
-                    self.extract_quant(chemin, element),
-                    self.extract_plaque(chemin, element)
-                    self.extract_client(chemin,element),
-                ]
+        for element in os.listdir("/gdrive/MyDrive/data/test/"):
+            self.data.loc[len(self.data["Fichier"])] = [
+                element,
+                self.extract_name(chemin, element),
+                self.extract_adr(chemin, element),
+                self.extract_tel(chemin, element),
+                self.extract_fax(chemin, element),
+                self.extract_date(chemin, element),
+                self.extract_heure(chemin, element),
+                self.extract_plaque(chemin, element),
+                self.extract_client(chemin, element),
+                self.extract_type(chemin, element),
+                self.extract_quant(chemin, element),
+                self.extract_trans(chemin, element),
+            ]
