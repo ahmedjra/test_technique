@@ -1,4 +1,3 @@
-import seaborn as sns
 import matplotlib.pyplot as plt
 
 
@@ -22,7 +21,7 @@ class evaluation:
         plt.title("Missing Values per Column")
         plt.ylabel("Number of Missing Values")
         plt.xlabel("Columns")
-        plt.savefig("missing_values.png")
+        plt.savefig("Missing_values.png")
 
     def main(self, data):
         completeness = self.column_completeness(data)
