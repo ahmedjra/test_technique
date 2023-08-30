@@ -1,6 +1,6 @@
 # test_technique
 
-A brief description of your project goes here.
+The goal of the project is to extract entites from csv files to create a csv file containing these informations.
 
 ## Prerequisites
 
@@ -40,6 +40,7 @@ Replace `/path/to/your/directory/` with the actual path where you have your data
 ## Output
 
 Upon successful execution, you'll find the `output.csv` file in the current directory.
+You'll find also a plot "Histogramme" showing missing values of each column.
 
 ## License
 
