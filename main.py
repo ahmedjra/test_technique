@@ -11,3 +11,4 @@ if __name__ == "__main__":
     preprocessing.main(args.path)
     output_data = preprocessing.data
     output_data.to_csv("output.csv", index=True)
+    evaluation.main(output_data)

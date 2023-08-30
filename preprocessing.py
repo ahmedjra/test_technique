@@ -119,8 +119,12 @@ class preprocessing:
                     ]
                 else:
                     value = data.loc[indice + 2, "content"]
-                    results.append((value, "KG"))
-            return results
+                    results.append((value))
+            return [
+                (results[0], "BRUT(T)"),
+                (results[1], "TARE(T)"),
+                (results[2], "NET(T)"),
+            ]
 
         return None
 
@@ -272,14 +276,12 @@ class preprocessing:
                     for index in range(1, indice):
                         value.append(data.loc[index, "content"])
 
-            # Filter out NaN values
             values = [
                 x
                 for x in value
                 if not (isinstance(x, (float, np.float64, np.float32)) and np.isnan(x))
             ]
 
-            # Ensure you don't reference indices that don't exist
             return_string = ""
             if len(values) >= 4:
                 return_string = f"{values[0]},{values[1]},{values[2]},{values[3]},{values[4]},{values[5]}"
