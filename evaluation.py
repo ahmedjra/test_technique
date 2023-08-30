@@ -22,7 +22,7 @@ class evaluation:
         plt.title("Missing Values per Column")
         plt.ylabel("Number of Missing Values")
         plt.xlabel("Columns")
-        plt.show()
+        plt.savefig("missing_values.png")
 
     def main(self, data):
         completeness = self.column_completeness(data)
